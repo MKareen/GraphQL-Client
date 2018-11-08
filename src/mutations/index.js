@@ -14,3 +14,18 @@ export const SIGNUP_USER = gql`
         }
     }
 `;
+
+export const LOGIN_USER = gql`
+    mutation($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            accessToken
+            user {
+                id
+                email
+                fullName
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`;

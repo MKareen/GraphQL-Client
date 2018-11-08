@@ -10,9 +10,26 @@ import { ApolloProvider } from 'react-apollo';
 
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
+import withSession from './withSession';
 
 const client = new ApolloClient({
-    uri: 'http://localhost:5000/graphql'
+    uri: 'http://localhost:5000/graphql',
+    fetchOptions: {
+        credentials: 'include'
+    },
+    request: operation => {
+        const token = localStorage.getItem('accessToken');
+        operation.setContext({
+            headers: {
+                authorization: token
+            }
+        })
+    },
+    onError: ({ networkError }) => {
+        if (networkError) {
+            console.log('Network Error', networkError);
+        }
+    }
 });
 
 const Root = () => (
@@ -26,10 +43,12 @@ const Root = () => (
   </Router>
 );
 
+const RootWithSession = withSession(Root);
+
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <Root />
+        <RootWithSession />
     </ApolloProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
