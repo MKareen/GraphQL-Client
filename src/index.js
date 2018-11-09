@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './index.css';
@@ -11,6 +11,9 @@ import { ApolloProvider } from 'react-apollo';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import withSession from './withSession';
+import Navbar from './components/Navbar';
+import Contacts from "./components/Contacts/Contact";
+import Profile from "./components/Profile";
 
 const client = new ApolloClient({
     uri: 'http://localhost:5000/graphql',
@@ -23,23 +26,28 @@ const client = new ApolloClient({
             headers: {
                 authorization: token
             }
-        })
+        });
     },
     onError: ({ networkError }) => {
         if (networkError) {
-            console.log('Network Error', networkError);
+            localStorage.setItem('token', '');
         }
     }
 });
 
-const Root = () => (
+const Root = ({ refetch, session }) => (
   <Router>
-      <Switch>
-          <Route path='/' exact component={App} />
-          <Route path='/login' component={Login} />
-          <Route path='/signup' component={Signup} />
-          <Redirect to='/' />
-      </Switch>
+      <Fragment>
+          <Navbar session={session}/>
+          <Switch>
+              <Route path='/' exact component={App} />
+              <Route path='/contacts' component={Contacts} />
+              <Route path='/login' render={() => <Login refetch={refetch} />} />
+              <Route path='/signup' render={() => <Signup refetch={refetch} />} />
+              <Route path="/profile" component={Profile} />
+              <Redirect to='/' />
+          </Switch>
+      </Fragment>
   </Router>
 );
 

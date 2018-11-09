@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
 
@@ -23,10 +25,15 @@ export class Login extends Component {
 
     handleSubmit = (e, login) => {
         e.preventDefault();
-        login().then(({ data }) => {
+        login().then(async ({ data }) => {
             console.log(data);
-            localStorage.setItem('accessToken', data.login.accessToken)
-            this.clearState();
+            if (data.login) {
+                localStorage.setItem('accessToken', data.login.accessToken);
+                await this.props.refetch();
+                this.clearState();
+                this.props.history.push('/');
+            }
+
         });
     }
 
@@ -77,4 +84,4 @@ export class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);
