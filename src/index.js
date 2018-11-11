@@ -10,10 +10,13 @@ import { ApolloProvider } from 'react-apollo';
 
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
-import withSession from './withSession';
+import withSession from './components/HOCs/withSession';
 import Navbar from './components/Navbar';
-import Contacts from "./components/Contacts/Contact";
-import Profile from "./components/Profile";
+import ContactsList from './components/Contacts/ContactsList';
+import Profile from "./components/Profile/Profile";
+import AddContact from './components/Contacts/addContact';
+import ContactsPage from './components/Contacts/ContactsPage';
+import Search from './components/Contacts/Search';
 
 const client = new ApolloClient({
     uri: 'http://localhost:5000/graphql',
@@ -30,25 +33,28 @@ const client = new ApolloClient({
     },
     onError: ({ networkError }) => {
         if (networkError) {
-            localStorage.setItem('token', '');
+            localStorage.removeItem('accesstoken');
         }
     }
 });
 
 const Root = ({ refetch, session }) => (
-  <Router>
-      <Fragment>
-          <Navbar session={session}/>
-          <Switch>
-              <Route path='/' exact component={App} />
-              <Route path='/contacts' component={Contacts} />
-              <Route path='/login' render={() => <Login refetch={refetch} />} />
-              <Route path='/signup' render={() => <Signup refetch={refetch} />} />
-              <Route path="/profile" component={Profile} />
-              <Redirect to='/' />
-          </Switch>
-      </Fragment>
-  </Router>
+    <Router>
+        <Fragment>
+            <Navbar session={session}/>
+            <Switch>
+                <Route path='/' exact component={App} />
+                <Route path='/contacts' render={() => <ContactsList refetch={refetch} />} />
+                <Route path='/login' render={() => <Login refetch={refetch} />} />
+                <Route path='/signup' render={() => <Signup refetch={refetch} />} />
+                <Route path="/profile" render={() => <Profile session={session} /> } />
+                <Route path="/contact/add" render={() => <AddContact session={session} />} />
+                <Route path="/contact/:id" component={ContactsPage} />
+                <Route path="/search" component={Search} />
+                <Redirect to='/' />
+            </Switch>
+        </Fragment>
+    </Router>
 );
 
 const RootWithSession = withSession(Root);

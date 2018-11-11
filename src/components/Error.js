@@ -1,5 +1,3 @@
 import React from 'react';
 
-export const Error = ({ error }) => <p>{error.message}</p>;
-
-
+export const Error = ({ error }) => <p className="error">{error.message}</p>;

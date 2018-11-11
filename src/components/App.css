@@ -45,6 +45,10 @@ nav a:link {
   font-weight: bold;
 }
 
+.error {
+  color: red
+}
+
 .form {
   display: flex;
   align-items: center;
