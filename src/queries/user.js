@@ -1,40 +1,20 @@
 import { gql } from 'apollo-boost';
+import { userFragment } from "../fragments/user";
 
 export const GET_ALL_USERS = gql`
     query {
         usersList {
-            id
-            fullName
-            email
-            createdAt
-            updatedAt
-            favourites {
-                id
-                firstName
-                lastName
-                phone
-                email
-                address
-            }  
+            ...completeUser
         }
     }
+    ${userFragment}
 `;
 
 export const GET_CURRENT_USER = gql`
     query {
         currentUser {
-            id
-            email
-            fullName
-            createdAt
-            favourites {
-                id
-                firstName
-                lastName
-                phone
-                email
-                address
-            }  
+            ...CompleteUser
         }
     }
+    ${userFragment}
 `;

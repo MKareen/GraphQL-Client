@@ -1,4 +1,5 @@
 import { gql } from 'apollo-boost';
+import { contactFragments } from "../fragments/contact";
 
 export const ADD_CONTACT = gql`
     mutation(
@@ -13,17 +14,10 @@ export const ADD_CONTACT = gql`
                 phone: $phone,
                 email: $email,
                 address: $address) {
-                    id
-                    owner
-                    firstName
-                    lastName
-                    isFavourite
-                    email
-                    phone
-                    address
-                    createdAt
+                    ...CompleteContact
                 } 
         }
+        ${contactFragments}
 `;
 
 export const LIKE_OR_UNLIKE = gql`

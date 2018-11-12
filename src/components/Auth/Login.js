@@ -48,6 +48,7 @@ export class Login extends Component {
                 <h2 className="App">Login</h2>
                 <Mutation mutation={LOGIN_USER} variables={{ email, password }}>
                     {( login, { data, loading, error }) => {
+                        if (error) console.log(error);
                         return (
                             <form onSubmit={e => this.handleSubmit(e, login)} className="form">
                                 <input

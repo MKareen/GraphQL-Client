@@ -1,3 +1,8 @@
 import React from 'react';
 
-export const Error = ({ error }) => <p className="error">{error.message}</p>;
+export const Error = ({ error }) => {
+    error = error.message.split(':');
+    return (
+        <p className="error">{error[1]}</p>
+    );
+};

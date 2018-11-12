@@ -5,7 +5,7 @@ import { GET_USER_CONTACTS } from "../../queries/contact";
 import ContactItem from './Contact';
 
 class ContactsList extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.refetch();
     }
 

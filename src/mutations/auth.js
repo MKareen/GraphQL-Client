@@ -1,18 +1,16 @@
 import { gql } from 'apollo-boost';
+import { userFragment } from "../fragments/user";
 
 export const SIGNUP_USER = gql`
     mutation($fullName: String!, $email: String!, $password: String!) {
         signup(fullName: $fullName, email: $email, password: $password) {
             accessToken
             user {
-                id
-                fullName
-                email
-                createdAt
-                updatedAt    
+                ...CompleteUser
             }
         }
     }
+    ${userFragment}
 `;
 
 export const LOGIN_USER = gql`
@@ -20,12 +18,9 @@ export const LOGIN_USER = gql`
         login(email: $email, password: $password) {
             accessToken
             user {
-                id
-                email
-                fullName
-                createdAt
-                updatedAt
+                ...CompleteUser
             }
         }
     }
+    ${userFragment}
 `;

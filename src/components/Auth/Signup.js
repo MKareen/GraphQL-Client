@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
-
 import { SIGNUP_USER } from "../../mutations/auth";
 
 const initialState = {
