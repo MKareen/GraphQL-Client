@@ -4,6 +4,8 @@ import { Query, Mutation } from 'react-apollo';
 import { GET_CONTACT, GET_USER_CONTACTS } from '../../queries/contact';
 import { DELETE_CONTACT, LIKE_OR_UNLIKE } from '../../mutations/contact';
 import { GET_CURRENT_USER } from '../../queries/user';
+import ContactForm from "./ContactsForm";
+import withAuth from "../Session/withAuth";
 
 class ContactsPage extends Component {
 
@@ -22,34 +24,33 @@ class ContactsPage extends Component {
         });
     };
 
+    updateDeleteCache = (cache, { data: { deleteContact }} ) => {
+        const {userContacts} = cache.readQuery({
+            query: GET_USER_CONTACTS,
+        });
+
+        cache.writeQuery({
+            query: GET_USER_CONTACTS,
+            data: {
+                userContacts: userContacts.filter(contact => contact.id !== deleteContact.id)
+            }
+        });
+    };
 
     render() {
         const { id } = this.props.match.params;
 
         return (
-            <Query query={GET_CONTACT} variables={{id}}>
+            <Query query={GET_CONTACT} variables={{ id }}>
                 {({data, loading, error}) => {
                     if (loading) return <div>Loading...</div>;
 
                     if (error) return <div>{error.message}</div>;
 
-                    console.log(data);
-
                     return (
                         <div className="App">
                             <h2>{data.contact.firstName} {data.contact.lastName}</h2>
-                            <form className="form">
-                                <label>First Name</label>
-                                <input type="text" value={data.contact.firstName}/>
-                                <label>Last Name</label>
-                                <input type="text" value={data.contact.lastName || ""}/>
-                                <label>Phone</label>
-                                <input type="text" value={data.contact.phone}/>
-                                <label>Email</label>
-                                <input type="text" value={data.contact.email || ""}/>
-                                <label>Address</label>
-                                <input type="text" value={data.contact.address || ""}/>
-                            </form>
+                            <ContactForm data={data}/>
                             <Mutation
                                 mutation={LIKE_OR_UNLIKE}
                                 variables={{id}}
@@ -71,21 +72,8 @@ class ContactsPage extends Component {
                             <Mutation
                                 mutation={DELETE_CONTACT}
                                 variables={{id}}
-                                refetchQueries={() => [
-                                    {query: GET_USER_CONTACTS}
-                                ]}
-                                update={(cache, {data: {deleteContact}}) => {
-                                    const {userContacts} = cache.readQuery({
-                                        query: GET_USER_CONTACTS,
-                                    });
-
-                                    cache.writeQuery({
-                                        query: GET_USER_CONTACTS,
-                                        data: {
-                                            userContacts: userContacts.filter(contact => contact.id !== deleteContact.id)
-                                        }
-                                    });
-                                }}
+                                refetchQueries={() => [{ query: GET_USER_CONTACTS }] }
+                                update={this.updateDeleteCache}
                             >
                                 {(deleteContact, attrs = {}) => (
                                     <button
@@ -103,4 +91,4 @@ class ContactsPage extends Component {
     }
 }
 
-export default withRouter(ContactsPage);
+export default withAuth(session => session && session.currentUser)(withRouter(ContactsPage));

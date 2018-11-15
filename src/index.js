@@ -10,7 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
-import withSession from './components/HOCs/withSession';
+import withSession from './components/Session/withSession';
 import Navbar from './components/Navbar';
 import ContactsList from './components/Contacts/ContactsList';
 import Profile from "./components/Profile/Profile";
@@ -36,9 +36,9 @@ const client = new ApolloClient({
             localStorage.removeItem('accessToken');
         }
         if (graphQLErrors)
-            graphQLErrors.map(({ message, locations, path }) =>
+            graphQLErrors.map(({ message, state, locations, path }) =>
                 console.log(
-                    `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+                    `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}, State: ${state}`,
                 ),
             );
     }
@@ -50,13 +50,13 @@ const Root = ({ refetch, session }) => (
             <Navbar session={session}/>
             <Switch>
                 <Route path='/' exact component={App} />
-                <Route path='/contacts' render={() => <ContactsList refetch={refetch} />} />
+                <Route path='/contacts' render={() => <ContactsList session={session} />} />
                 <Route path='/login' render={() => <Login refetch={refetch} />} />
                 <Route path='/signup' render={() => <Signup refetch={refetch} />} />
                 <Route path="/profile" render={() => <Profile session={session} /> } />
                 <Route path="/contact/add" render={() => <AddContact session={session} />} />
-                <Route path="/contact/:id" component={ContactsPage} />
-                <Route path="/search" component={Search} />
+                <Route path="/contact/:id" render={() => <ContactsPage session={session} />} />
+                <Route path="/search" render={() => <Search session={session} />} />
                 <Redirect to='/' />
             </Switch>
         </Fragment>
@@ -74,4 +74,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();

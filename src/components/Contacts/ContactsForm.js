@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import { GET_USER_CONTACTS } from "../../queries/contact";
+import {EDIT_CONTACT} from "../../mutations/contact";
+import {Error} from "../Error";
 import validator from "validator";
-import { isEqual, cloneDeep } from 'lodash';
-import { Error } from '../Error';
-import { ADD_CONTACT } from '../../mutations/contact';
-import { GET_USER_CONTACTS } from '../../queries/contact';
-import withAuth from '../Session/withAuth';
+import {cloneDeep, isEqual} from "lodash";
 
 const initialState = {
     firstName: '',
@@ -21,15 +19,24 @@ const errorsState = {
     phone: ""
 };
 
-class AddContact extends Component {
+class ContactForm extends Component {
+
     state = {
         fields: { ...initialState },
         errors: { ...errorsState }
     };
 
-    clearState = () => {
-        this.setState({fields: { ...initialState }, errors: { ...errorsState } });
-    };
+    componentDidMount() {
+        this.setState({
+            fields: {
+                firstName: this.props.data.contact.firstName,
+                lastName: this.props.data.contact.lastName,
+                phone: this.props.data.contact.phone,
+                email: this.props.data.contact.email,
+                address: this.props.data.contact.address
+            }
+        })
+    }
 
     validate(name, value) {
         switch (name) {
@@ -63,7 +70,7 @@ class AddContact extends Component {
         this.setState({ fields: { ...this.state.fields, [name]: value }, errors: { ...errorsState } });
     };
 
-    handleSubmit = (e, addContact) => {
+    handleSubmit = (e, editContact) => {
         e.preventDefault();
         let validationErrors = {};
         const { fields } = this.state;
@@ -80,30 +87,20 @@ class AddContact extends Component {
             return;
         }
 
-        addContact().then(({ data }) => {
+        editContact().then(({ data }) => {
             console.log(data);
-            this.clearState();
-            this.props.history.push("/contacts");
-        });
-    };
-
-    updateCache = (cache, { data: { addContact }} ) => {
-        const { userContacts } = cache.readQuery({ query: GET_USER_CONTACTS });
-        cache.writeQuery({ 
-            query: GET_USER_CONTACTS, 
-            data: { 
-                userContacts: [addContact, ...userContacts]
-            } 
         });
     };
 
     render() {
         const { fields, errors } = this.state;
+        const { data } = this.props;
 
         return (
-            <Mutation 
-                mutation={ADD_CONTACT}
+            <Mutation
+                mutation={EDIT_CONTACT}
                 variables={{
+                    id: data.contact.id,
                     firstName: fields.firstName,
                     lastName: fields.lastName,
                     phone: fields.phone,
@@ -112,55 +109,60 @@ class AddContact extends Component {
                 refetchQueries={() => [
                     { query: GET_USER_CONTACTS }
                 ]}
-                update={this.updateCache}>
-            {( addContact, { data, loading, error }) => {
-                return (
-                    <div className="App">
-                        <h2 className="App">Add Contact</h2>
-                        <form className="form" onSubmit={(e) => this.handleSubmit(e, addContact)}>
-                            <input 
-                                type="text" 
+            >
+                {( editContact, { data, loading, error }) => {
+                    return (
+                        <form className="form" onSubmit={(e) => this.handleSubmit(e, editContact)}>
+                            <label>First Name</label>
+                            <input
+                                type="text"
                                 name="firstName"
                                 placeholder="First Name"
                                 value={fields.firstName}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                            />
                             {errors.firstName && <div className="invalid">{errors.firstName}</div>}
-                            <input 
-                                type="text" 
+                            <label>Last Name</label>
+                            <input
+                                type="text"
                                 name="lastName"
                                 placeholder="Last Name"
                                 value={fields.lastName || ""}
-                                onChange={this.handleChange} />
-                            <input 
-                                type="text" 
+                                onChange={this.handleChange}
+                            />
+                            <label>Phone</label>
+                            <input
+                                type="text"
                                 name="phone"
                                 placeholder="Phone"
                                 value={fields.phone}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                            />
                             {errors.phone && <div className="invalid">{errors.phone}</div>}
-                            <input 
-                                type="email" 
+                            <label>Email</label>
+                            <input
+                                type="email"
                                 name="email"
                                 placeholder="Email"
                                 value={fields.email || ""}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                            />
+                            <label>Address</label>
                             <input
-                                type="text" 
+                                type="text"
                                 name="address"
-                                placeholder="Address"
+                                placeholder="address"
                                 value={fields.address || ""}
-                                onChange={this.handleChange} />
-                            <button disabled={loading} type="submit" className="button-primary">Add</button>
-                            {error && <Error error={error} />}
+                                onChange={this.handleChange}
+                            />
+                            <button disabled={loading} type="submit" className="button-primary">Save</button>
+                            {error && <Error error={error}/>}
                         </form>
-                    </div>
-                ); 
-            }}
-        </Mutation>
+                    );
+                }}
+            </Mutation>
         );
     }
 }
 
-export default withAuth(session => session && session.currentUser)(
-    withRouter(AddContact)
-);
+export default ContactForm;

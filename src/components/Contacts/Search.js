@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import { SEARCH_CONTACT } from '../../queries/contact';
 import SearchItem from './SearchItem';
+import withAuth from "../Session/withAuth";
 
 class Search extends Component {
     state = { searchResults: [] }
@@ -42,4 +43,4 @@ class Search extends Component {
     }
 }
 
-export default Search; 
+export default withAuth(session => session && session.currentUser)(Search);

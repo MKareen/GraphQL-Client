@@ -49,6 +49,11 @@ nav a:link {
   color: red
 }
 
+.invalid {
+  color: red;
+  margin-bottom: 15px;
+}
+
 .form {
   display: flex;
   align-items: center;

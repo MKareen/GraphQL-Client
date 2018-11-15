@@ -1,6 +1,6 @@
 import React from 'react';
 import UserInfo from './UserInfo';
-import withAuth from '../HOCs/withAuth';
+import withAuth from '../Session/withAuth';
 
 const Profile = ({ session }) => (
     <div className="App">
