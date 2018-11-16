@@ -5,7 +5,7 @@ import SearchItem from './SearchItem';
 import withAuth from "../Session/withAuth";
 
 class Search extends Component {
-    state = { searchResults: [] }
+    state = { searchResults: [] };
 
     handleChange = ({ searchContact }) => {
         this.setState({

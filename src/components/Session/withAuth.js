@@ -7,7 +7,7 @@ const withAuth = check => Component => props => (
     <Query query={GET_CURRENT_USER}>
         {({ loading, data }) => {
             if (loading) return null;
-            return check(data) ? <Component {...props} /> : <Redirect to="/" />
+            return check(data) ? <Component { ...props } /> : <Redirect to="/" />
         }}
     </Query>
 );

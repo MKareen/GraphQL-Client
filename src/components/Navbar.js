@@ -33,6 +33,9 @@ const NavbarAuth = ({ session }) => (
                 <NavLink to='/contacts'>Contacts</NavLink>
             </li>
             <li>
+                <NavLink to='/favourites'>Favourites</NavLink>
+            </li>
+            <li>
                 <NavLink to='/search'>Search</NavLink>
             </li>
             <li>

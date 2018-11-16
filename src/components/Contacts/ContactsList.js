@@ -2,13 +2,13 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { GET_USER_CONTACTS } from "../../queries/contact";
-import ContactItem from './Contact';
+import Contact from './Contact';
 import withAuth from "../Session/withAuth";
 
 const ContactsList = () => (
     <div className="App">
         <h1>Contacts</h1>
-        <button><Link to="/contact/add">Add New Contact </Link></button>
+        <button><Link className="contact-link" to="/contact/add">Add New Contact </Link></button>
         <Query query={GET_USER_CONTACTS}>
             {({ data, loading }) => {
                 if (loading) return <div>Loading...</div>;
@@ -17,7 +17,7 @@ const ContactsList = () => (
                     return (
                         <ul>
                             {data.userContacts.map((contact, i) => (
-                                <ContactItem key={i} { ...contact }/>
+                                <Contact key={i} { ...contact }/>
                             ))}
                         </ul>
                     );

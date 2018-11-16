@@ -7,7 +7,7 @@ nav {
   text-align: center;
   padding-bottom: 0.2em;
   padding-top: 2em;
-  background-color: #efefef;
+  background-color: lightyellow;
   box-shadow: -3px 3px 10px 0px rgba(168, 168, 168, 0.7);
 }
 
@@ -52,6 +52,12 @@ nav a:link {
 .invalid {
   color: red;
   margin-bottom: 15px;
+}
+
+.contact-link {
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-weight: 100;
 }
 
 .form {

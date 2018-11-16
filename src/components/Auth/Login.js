@@ -65,7 +65,7 @@ export class Login extends Component {
         });
     };
 
-    validate(name, value) {
+    validate = (name, value) => {
         switch (name) {
             case "email":
                 if (validator.isEmpty(value)) {
@@ -82,7 +82,7 @@ export class Login extends Component {
             default:
                 return "";
         }
-    }
+    };
 
     render() {
         const { fields, errors } = this.state;
