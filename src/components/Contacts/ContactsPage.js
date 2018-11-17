@@ -4,8 +4,8 @@ import { Query, Mutation } from 'react-apollo';
 import { GET_CONTACT, GET_USER_CONTACTS } from '../../queries/contact';
 import { DELETE_CONTACT, LIKE_OR_UNLIKE } from '../../mutations/contact';
 import { GET_CURRENT_USER } from '../../queries/user';
-import ContactForm from "./ContactsForm";
-import withAuth from "../Session/withAuth";
+import ContactForm from './ContactsForm';
+import withAuth from '../Session/withAuth';
 
 class ContactsPage extends Component {
 
@@ -24,8 +24,8 @@ class ContactsPage extends Component {
         });
     };
 
-    updateDeleteCache = (cache, { data: { deleteContact }} ) => {
-        const {userContacts} = cache.readQuery({
+    updateDeleteCache = (cache, { data: { deleteContact } } ) => {
+        const { userContacts } = cache.readQuery({
             query: GET_USER_CONTACTS,
         });
 
@@ -42,22 +42,26 @@ class ContactsPage extends Component {
 
         return (
             <Query query={GET_CONTACT} variables={{ id }}>
-                {({data, loading, error}) => {
-                    if (loading) return <div>Loading...</div>;
+                {({ data, loading, error }) => {
+                    if (loading) {
+                        return <div>Loading...</div>;
+                    }
 
-                    if (error) return <div>{error.message}</div>;
+                    if (error) {
+                        return <div>{error.message}</div>;
+                    }
 
                     return (
-                        <div className="App">
+                        <div className="contact-list">
                             <h2>{data.contact.firstName} {data.contact.lastName}</h2>
                             <ContactForm data={data}/>
                             <Mutation
                                 mutation={LIKE_OR_UNLIKE}
-                                variables={{id}}
+                                variables={{ id }}
                                 refetchQueries={() => [
-                                    {query: GET_CONTACT, variables: {id}},
-                                    {query: GET_USER_CONTACTS},
-                                    {query: GET_CURRENT_USER}
+                                    { query: GET_CONTACT, variables: { id } },
+                                    { query: GET_USER_CONTACTS },
+                                    { query: GET_CURRENT_USER }
                                 ]}>
                                 {(addToFavourites) => {
                                     return (
@@ -71,7 +75,7 @@ class ContactsPage extends Component {
                             <br />
                             <Mutation
                                 mutation={DELETE_CONTACT}
-                                variables={{id}}
+                                variables={{ id }}
                                 refetchQueries={() => [{ query: GET_USER_CONTACTS }] }
                                 update={this.updateDeleteCache}
                             >

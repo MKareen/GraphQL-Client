@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { EDIT_USER } from "../../mutations/user";
-import { Error } from "../Error";
-import validator from "validator";
-import { cloneDeep, isEqual } from "lodash";
+import { EDIT_USER } from '../../mutations/user';
+import { Error } from '../Error';
+import validator from 'validator';
+import { cloneDeep, isEqual } from 'lodash';
 import moment from 'moment';
 
 const userState = {
@@ -17,7 +17,6 @@ class UserForm extends Component {
         errors: { ...userState }
     };
 
-
     componentDidMount() {
         const { data: { currentUser } } = this.props;
         if (currentUser) {
@@ -30,29 +29,29 @@ class UserForm extends Component {
         }
     }
 
-    validate(name, value) {
+    validate = (name, value) => {
         switch (name) {
-            case "fullName":
-                if (validator.isEmpty(value)) {
-                    return "Full Name is required";
-                }
-                break;
-            case "email":
-                if (validator.isEmpty(value)) {
-                    return "Email is required";
-                } else if (!validator.isEmail(value)) {
-                    return "Email is invalid";
-                }
-                break;
-            default:
-                return "";
+                case 'fullName':
+                    if (validator.isEmpty(value)) {
+                        return 'Full Name is required';
+                    }
+                    break;
+                case 'email':
+                    if (validator.isEmpty(value)) {
+                        return 'Email is required';
+                    } else if (!validator.isEmail(value)) {
+                        return 'Email is invalid';
+                    }
+                    break;
+                default:
+                    return '';
         }
     }
 
     handleChange = (e) => {
         let newState = cloneDeep(this.state);
         const { name, value } = e.target;
-        if (name === "fullName" || name === "email") {
+        if (name === 'fullName' || name === 'email') {
             newState.fields[name] = value;
         } else {
             newState.errors[name] = this.validate(name, value);
@@ -78,11 +77,12 @@ class UserForm extends Component {
 
         if (Object.keys(validationErrors).length > 0) {
             this.setState({ errors: validationErrors });
+
             return;
         }
 
         editUser().then(({ data }) => {
-            console.log(data, "aaaaaaaaaaaaaaaaaaaa");
+            console.log(data);
         });
     };
 
@@ -96,11 +96,8 @@ class UserForm extends Component {
                 variables={{
                     fullName: fields.fullName,
                     email: fields.email }}
-                // refetchQueries={() => [
-                //     { query: GET_CURRENT_USER }
-                // ]}
             >
-                {( editUser, { data, loading, error }) => {
+                {( editUser, { loading, error }) => {
                     return (
                         <form className="form" onSubmit={(e) => this.handleSubmit(e, editUser)}>
                             <label>Full Name</label>
@@ -108,7 +105,7 @@ class UserForm extends Component {
                                 type="text"
                                 name="fullName"
                                 placeholder="Full Name"
-                                value={fields.fullName || ""}
+                                value={fields.fullName || ''}
                                 onChange={this.handleChange}
                             />
                             {errors.fullName && <div className="invalid">{errors.fullName}</div>}
@@ -117,7 +114,7 @@ class UserForm extends Component {
                                 type="email"
                                 name="email"
                                 placeholder="Email"
-                                value={fields.email || ""}
+                                value={fields.email || ''}
                                 onChange={this.handleChange}
                             />
                             {errors.email && <div className="invalid">{errors.email}</div>}
@@ -125,7 +122,7 @@ class UserForm extends Component {
                             <input
                                 type="text"
                                 disabled={true}
-                                value={moment(currentUser.createdAt).format("YYYY-MM-DD HH:mm:ss")}
+                                value={moment(currentUser.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                             />
                             <button disabled={loading} type="submit" className="button-primary">Save</button>
                             {error && <Error error={error}/>}

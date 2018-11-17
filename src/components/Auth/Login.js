@@ -4,11 +4,11 @@ import { cloneDeep, isEqual } from 'lodash';
 import validator from 'validator';
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
-import { LOGIN_USER } from "../../mutations/auth";
+import { LOGIN_USER } from '../../mutations/auth';
 
 const loginState = {
-    email: "",
-    password: ""
+    email: '',
+    password: ''
 };
 
 export class Login extends Component {
@@ -21,10 +21,29 @@ export class Login extends Component {
         this.setState({ fields: { ...loginState }, errors: { ...loginState } });
     };
 
+    validate = (name, value) => {
+        switch (name) {
+                case 'email':
+                    if (validator.isEmpty(value)) {
+                        return 'Email is required';
+                    } else if (!validator.isEmail(value)) {
+                        return 'Email is invalid';
+                    }
+                    break;
+                case 'password':
+                    if (validator.isEmpty(value)) {
+                        return 'Password is required';
+                    }
+                    break;
+                default:
+                    return '';
+        }
+    };
+
     handleChange = e => {
         let newState = cloneDeep(this.state);
         const { name, value } = e.target;
-        if (name === "email" || name === "password") {
+        if (name === 'email' || name === 'password') {
             newState.fields[name] = value;
         } else {
             newState.errors[name] = this.validate(name, value);
@@ -50,6 +69,7 @@ export class Login extends Component {
 
         if (Object.keys(validationErrors).length > 0) {
             this.setState({ errors: validationErrors });
+
             return;
         }
 
@@ -65,25 +85,6 @@ export class Login extends Component {
         });
     };
 
-    validate = (name, value) => {
-        switch (name) {
-            case "email":
-                if (validator.isEmpty(value)) {
-                    return "Email is required";
-                } else if (!validator.isEmail(value)) {
-                    return "Email is invalid";
-                }
-                break;
-            case "password":
-                if (validator.isEmpty(value)) {
-                    return "Password is required"
-                }
-                break;
-            default:
-                return "";
-        }
-    };
-
     render() {
         const { fields, errors } = this.state;
 
@@ -93,14 +94,14 @@ export class Login extends Component {
                 <Mutation
                     mutation={LOGIN_USER}
                     variables={{ email: fields.email, password: fields.password }}>
-                    {( login, { data, loading, error }) => {
+                    {( login, { loading, error }) => {
                         return (
                             <form onSubmit={e => this.handleSubmit(e, login)} className="form">
                                 <input
                                     type="email"
                                     name="email"
                                     placeholder="Email"
-                                    value={fields.email || ""}
+                                    value={fields.email || ''}
                                     onChange={this.handleChange}
                                 />
                                 {errors.email && <div className="invalid">{errors.email}</div>}
@@ -108,7 +109,7 @@ export class Login extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="Password"
-                                    value={fields.password || ""}
+                                    value={fields.password || ''}
                                     onChange={this.handleChange}
                                 />
                                 {errors.password && <div className="invalid">{errors.password}</div>}

@@ -1,0 +1,87 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "globals": {
+    "localStorage": true
+  },
+  "plugins": [
+    "react",
+    "promise",
+    "babel"
+  ],
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/no-typos": "error",
+    "react/no-unsafe": "error",
+    "react/prop-types": 0,
+    "react/display-name": 0,
+    "semi": "error",
+    "curly": "error",
+    "no-var": "error",
+    "no-console": 0,
+    "eqeqeq": "error",
+    "eol-last": "error",
+    "key-spacing": "error",
+    "spaced-comment": "error",
+    "space-infix-ops": "error",
+    "space-before-blocks": "error",
+    "newline-before-return": "error",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 2,
+        "MemberExpression": 2
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "camelcase": [
+      "error",
+      {
+        "properties": "never"
+      }
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "newline-per-chained-call": [
+      "error",
+      {
+        "ignoreChainWithDepth": 2
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ]
+  }
+}

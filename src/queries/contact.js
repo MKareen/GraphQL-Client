@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import { contactFragments } from "../fragments/contact";
+import { contactFragments } from '../fragments/contact';
 
 export const GET_CONTACT = gql`
     query($id: ID!) {

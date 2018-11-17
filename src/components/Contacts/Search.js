@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import { SEARCH_CONTACT } from '../../queries/contact';
 import SearchItem from './SearchItem';
-import withAuth from "../Session/withAuth";
+import withAuth from '../Session/withAuth';
 
 class Search extends Component {
     state = { searchResults: [] };
@@ -19,7 +19,7 @@ class Search extends Component {
         return (
             <ApolloConsumer>
                 {(client) => (
-                    <div className="App">
+                    <div className="contact-list">
                         <input 
                             type="search" 
                             placeholder="Search for Contacts"

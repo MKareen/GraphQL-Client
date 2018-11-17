@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import { userFragment } from "../fragments/user";
+import { userFragment } from '../fragments/user';
 
 export const GET_ALL_USERS = gql`
     query {

@@ -4,12 +4,12 @@ import validator from 'validator';
 import { isEqual, cloneDeep } from 'lodash';
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
-import { SIGNUP_USER } from "../../mutations/auth";
+import { SIGNUP_USER } from '../../mutations/auth';
 
 const signupState = {
-    fullName: "",
-    email: "",
-    password: ""
+    fullName: '',
+    email: '',
+    password: ''
 };
 
 export class Signup extends Component {
@@ -22,28 +22,28 @@ export class Signup extends Component {
         this.setState({ fields: { ...signupState }, errors: { ...signupState } });
     }
 
-    validate(name, value) {
+    validate = (name, value) => {
         switch (name) {
-            case "fullName": {
-                if (validator.isEmpty(value)) {
-                    return "Full Name is required";
+                case 'fullName': {
+                    if (validator.isEmpty(value)) {
+                        return 'Full Name is required';
+                    }
+                    break;
                 }
-                break;
-            }
-            case "email":
-                if (validator.isEmpty(value)) {
-                    return "Email is required";
-                } else if (!validator.isEmail(value)) {
-                    return "Email is invalid";
-                }
-                break;
-            case "password":
-                if (validator.isEmpty(value)) {
-                    return "Password is required"
-                }
-                break;
-            default:
-                return "";
+                case 'email':
+                    if (validator.isEmpty(value)) {
+                        return 'Email is required';
+                    } else if (!validator.isEmail(value)) {
+                        return 'Email is invalid';
+                    }
+                    break;
+                case 'password':
+                    if (validator.isEmpty(value)) {
+                        return 'Password is required';
+                    }
+                    break;
+                default:
+                    return '';
         }
     }
 
@@ -76,6 +76,7 @@ export class Signup extends Component {
 
         if (Object.keys(validationErrors).length > 0) {
             this.setState({ errors: validationErrors });
+
             return;
         }
 
@@ -96,15 +97,19 @@ export class Signup extends Component {
                 <h2 className="App">Signup</h2>
                 <Mutation
                     mutation={SIGNUP_USER}
-                    variables={{ fullName: fields.fullName, email: fields.email, password: fields.password }}>
-                    {( signup, { data, loading, error }) => {
+                    variables={{ 
+                        fullName: fields.fullName, 
+                        email: fields.email, 
+                        password: fields.password 
+                    }}>
+                    {( signup, { loading, error }) => {
                         return (
                             <form onSubmit={e => this.handleSubmit(e, signup)} className="form">
                                 <input
                                     type="text"
                                     name="fullName"
                                     placeholder="Full Name"
-                                    value={fields.fullName || ""}
+                                    value={fields.fullName || ''}
                                     onChange={this.handleChange}
                                 />
                                 {errors.fullName && <div className="invalid">{errors.fullName}</div>}
@@ -112,7 +117,7 @@ export class Signup extends Component {
                                     type="email"
                                     name="email"
                                     placeholder="Email"
-                                    value={fields.email || ""}
+                                    value={fields.email || ''}
                                     onChange={this.handleChange}
                                 />
                                 {errors.email && <div className="invalid">{errors.email}</div>}
@@ -120,7 +125,7 @@ export class Signup extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="Password"
-                                    value={fields.password || ""}
+                                    value={fields.password || ''}
                                     onChange={this.handleChange}
                                 />
                                 {errors.password && <div className="invalid">{errors.password}</div>}

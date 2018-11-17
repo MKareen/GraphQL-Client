@@ -1,12 +1,22 @@
 .App {
   text-align: center;
-  margin-top: 1em;
+  margin-top: 5em;
 }
+
+.contact-list {
+  text-align: center;
+  margin-top: 15em;
+}
+
 
 nav {
   text-align: center;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
   padding-bottom: 0.2em;
   padding-top: 2em;
+  top: 0;
   background-color: lightyellow;
   box-shadow: -3px 3px 10px 0px rgba(168, 168, 168, 0.7);
 }
@@ -43,6 +53,8 @@ nav a:link {
 
 .active {
   font-weight: bold;
+  color: brown;
+  font-style: italic;
 }
 
 .error {

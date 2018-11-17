@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import Logout from "./Auth/Logout";
+import Logout from './Auth/Logout';
 
 const Navbar = ({ session }) => (
     <nav>
@@ -34,6 +34,9 @@ const NavbarAuth = ({ session }) => (
             </li>
             <li>
                 <NavLink to='/favourites'>Favourites</NavLink>
+            </li>
+            <li>
+                <NavLink to='/contact/add'>Add New</NavLink>
             </li>
             <li>
                 <NavLink to='/search'>Search</NavLink>

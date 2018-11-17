@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import {userFragment} from "../fragments/user";
+import { userFragment } from '../fragments/user';
 
 export const EDIT_USER = gql`
     mutation($fullName: String!, $email: String!) {

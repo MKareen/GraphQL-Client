@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { GET_USER_CONTACTS } from "../../queries/contact";
-import {EDIT_CONTACT} from "../../mutations/contact";
-import {Error} from "../Error";
-import validator from "validator";
-import {cloneDeep, isEqual} from "lodash";
+import { GET_USER_CONTACTS } from '../../queries/contact';
+import { EDIT_CONTACT } from '../../mutations/contact';
+import { Error } from '../Error';
+import validator from 'validator';
+import { cloneDeep, isEqual } from 'lodash';
 
 const initialState = {
     firstName: '',
@@ -15,8 +15,8 @@ const initialState = {
 };
 
 const errorsState = {
-    firstName: "",
-    phone: ""
+    firstName: '',
+    phone: ''
 };
 
 class ContactForm extends Component {
@@ -35,30 +35,30 @@ class ContactForm extends Component {
                 email: this.props.data.contact.email,
                 address: this.props.data.contact.address
             }
-        })
+        });
     }
 
-    validate(name, value) {
+    validate = (name, value) => {
         switch (name) {
-            case "firstName":
-                if (validator.isEmpty(value)) {
-                    return "First Name is required";
-                }
-                break;
-            case "phone":
-                if (validator.isEmpty(value)) {
-                    return "Phone number is required"
-                }
-                break;
-            default:
-                return "";
+                case 'firstName':
+                    if (validator.isEmpty(value)) {
+                        return 'First Name is required';
+                    }
+                    break;
+                case 'phone':
+                    if (validator.isEmpty(value)) {
+                        return 'Phone number is required';
+                    }
+                    break;
+                default:
+                    return '';
         }
-    }
+    };
 
     handleChange = (e) => {
         let newState = cloneDeep(this.state);
         const { name, value } = e.target;
-        if (name === "firstName" || name === "phone") {
+        if (name === 'firstName' || name === 'phone') {
             newState.fields[name] = value;
         } else {
             newState.errors[name] = this.validate(name, value);
@@ -84,6 +84,7 @@ class ContactForm extends Component {
 
         if (Object.keys(validationErrors).length > 0) {
             this.setState({ errors: validationErrors });
+
             return;
         }
 
@@ -98,7 +99,7 @@ class ContactForm extends Component {
 
         return (
             <Mutation
-                mutation={EDIT_CONTACT}
+                mutation={ EDIT_CONTACT }
                 variables={{
                     id: data.contact.id,
                     firstName: fields.firstName,
@@ -110,7 +111,7 @@ class ContactForm extends Component {
                     { query: GET_USER_CONTACTS }
                 ]}
             >
-                {( editContact, { data, loading, error }) => {
+                {( editContact, { loading, error }) => {
                     return (
                         <form className="form" onSubmit={(e) => this.handleSubmit(e, editContact)}>
                             <label>First Name</label>
@@ -127,7 +128,7 @@ class ContactForm extends Component {
                                 type="text"
                                 name="lastName"
                                 placeholder="Last Name"
-                                value={fields.lastName || ""}
+                                value={fields.lastName || ''}
                                 onChange={this.handleChange}
                             />
                             <label>Phone</label>
@@ -144,7 +145,7 @@ class ContactForm extends Component {
                                 type="email"
                                 name="email"
                                 placeholder="Email"
-                                value={fields.email || ""}
+                                value={fields.email || ''}
                                 onChange={this.handleChange}
                             />
                             <label>Address</label>
@@ -152,11 +153,11 @@ class ContactForm extends Component {
                                 type="text"
                                 name="address"
                                 placeholder="address"
-                                value={fields.address || ""}
+                                value={fields.address || ''}
                                 onChange={this.handleChange}
                             />
                             <button disabled={loading} type="submit" className="button-primary">Save</button>
-                            {error && <Error error={error}/>}
+                            {error && <Error error={error} />}
                         </form>
                     );
                 }}
