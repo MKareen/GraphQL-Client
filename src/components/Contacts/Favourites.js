@@ -8,13 +8,15 @@ const Favourites = ({ session }) => {
     return (
         <div className="contact-list">
             <ul>
-                {session && session.currentUser && session.currentUser.favourites.map((contact, i) => (
-                    <Contact key={i} { ...contact } />
-                ))}
+                {session.currentUser && session.currentUser.favourites.length ? 
+                    session.currentUser.favourites.map((contact, i) => (
+                        <Contact key={i} { ...contact } />
+                    )) :
+                    <div>No Favourites</div>
+                }
             </ul>
         </div>
     );
 };
 
 export default withAuth(session => session && session.currentUser)(Favourites);
-
