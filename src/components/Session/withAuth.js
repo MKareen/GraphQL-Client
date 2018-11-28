@@ -10,7 +10,9 @@ const withAuth = (check) => Component => props => (
                 return null;
             }
 
-            return check(data) ? <Component { ...props } /> : <Redirect to="/" />;
+            return check(data) ?
+                <Component { ...props } /> :
+                <Redirect to="/" />;
         }}
     </Query>
 );

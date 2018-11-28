@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { EDIT_USER } from '../../mutations/user';
 import { Error } from '../Error';
-import validator from 'validator';
+import { isEmpty, isEmail } from 'validator';
 import { cloneDeep, isEqual } from 'lodash';
+import { REQUIRED, INVALID } from '../../configs/constants';
 import moment from 'moment';
 
 const userState = {
@@ -32,21 +33,21 @@ class UserForm extends Component {
     validate = (name, value) => {
         switch (name) {
                 case 'fullName':
-                    if (validator.isEmpty(value)) {
-                        return 'Full Name is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Full Name');
                     }
                     break;
                 case 'email':
-                    if (validator.isEmpty(value)) {
-                        return 'Email is required';
-                    } else if (!validator.isEmail(value)) {
-                        return 'Email is invalid';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Email');
+                    } else if (!isEmail(value)) {
+                        return INVALID('Email');
                     }
                     break;
                 default:
                     return '';
         }
-    }
+    };
 
     handleChange = (e) => {
         let newState = cloneDeep(this.state);
@@ -60,7 +61,10 @@ class UserForm extends Component {
         if (!isEqual(this.state, newState)) {
             this.setState(newState);
         }
-        this.setState({ fields: { ...this.state.fields, [name]: value }, errors: { ...userState } });
+        this.setState({
+            fields: { ...this.state.fields, [name]: value },
+            errors: { ...userState }
+        });
     };
 
     handleSubmit = (e, editUser) => {

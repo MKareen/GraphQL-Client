@@ -5,13 +5,15 @@ import SearchItem from './SearchItem';
 import withAuth from '../Session/withAuth';
 
 class Search extends Component {
-    state = { searchResults: [] };
+    state = {
+        searchResults: []
+    };
 
     handleChange = ({ searchContact }) => {
         this.setState({
             searchResults: searchContact
         });
-    }
+    };
 
     render() {
         const { searchResults } = this.state; 
@@ -33,7 +35,7 @@ class Search extends Component {
                             }} />
                         <ul>
                             {searchResults.map((contact, i) => (
-                                <SearchItem key={i} {...contact} />
+                                <SearchItem key={i} { ...contact } />
                             ))}
                         </ul>
                     </div>

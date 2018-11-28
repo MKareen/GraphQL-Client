@@ -4,12 +4,13 @@ import Contact from './Contact';
 
 const Favourites = ({ session }) => {
     console.log(session);
+    const { currentUser } = session;
 
     return (
         <div className="contact-list">
             <ul>
-                {session.currentUser && session.currentUser.favourites.length ? 
-                    session.currentUser.favourites.map((contact, i) => (
+                {currentUser && currentUser.favourites.length ?
+                    currentUser.favourites.map((contact, i) => (
                         <Contact key={i} { ...contact } />
                     )) :
                     <div>No Favourites</div>

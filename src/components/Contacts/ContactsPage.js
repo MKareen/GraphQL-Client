@@ -6,6 +6,7 @@ import { DELETE_CONTACT, LIKE_OR_UNLIKE } from '../../mutations/contact';
 import { GET_CURRENT_USER } from '../../queries/user';
 import ContactForm from './ContactsForm';
 import withAuth from '../Session/withAuth';
+import { CONTACTS_ROUTE } from '../../configs/constants';
 
 class ContactsPage extends Component {
 
@@ -13,7 +14,7 @@ class ContactsPage extends Component {
         const confirmDelete = window.confirm('Do you really want to delete?');
         if (confirmDelete) {
             deleteContact().then(() => {
-                this.props.history.push('/contacts');
+                this.props.history.push(CONTACTS_ROUTE);
             });
         }
     };
@@ -32,7 +33,9 @@ class ContactsPage extends Component {
         cache.writeQuery({
             query: GET_USER_CONTACTS,
             data: {
-                userContacts: userContacts.filter(contact => contact.id !== deleteContact.id)
+                userContacts: userContacts.filter(contact =>
+                    contact.id !== deleteContact.id
+                )
             }
         });
     };

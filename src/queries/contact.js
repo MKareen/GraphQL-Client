@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { contactFragments } from '../fragments/contact';
 
 export const GET_CONTACT = gql`
-    query($id: ID!) {
+    query contact($id: ID!) {
         contact(id: $id) {
             ...CompleteContact
         }

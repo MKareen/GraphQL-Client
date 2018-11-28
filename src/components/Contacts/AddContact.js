@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import validator from 'validator';
+import { isEmpty } from 'validator';
 import { isEqual, cloneDeep } from 'lodash';
 import { Error } from '../Error';
 import { ADD_CONTACT } from '../../mutations/contact';
 import { GET_USER_CONTACTS } from '../../queries/contact';
 import withAuth from '../Session/withAuth';
+import { REQUIRED } from '../../configs/constants';
 
 const initialState = {
     firstName: '',
@@ -28,25 +29,28 @@ class AddContact extends Component {
     };
 
     clearState = () => {
-        this.setState({ fields: { ...initialState }, errors: { ...errorsState } });
+        this.setState({
+            fields: { ...initialState },
+            errors: { ...errorsState }
+        });
     };
 
     validate = (name, value) => {
         switch (name) {
                 case 'firstName':
-                    if (validator.isEmpty(value)) {
-                        return 'First Name is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('First Name');
                     }
                     break;
                 case 'phone':
-                    if (validator.isEmpty(value)) {
-                        return 'Phone number is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Phone Number');
                     }
                     break;
                 default:
                     return '';
         }
-    }
+    };
 
     handleChange = (e) => {
         let newState = cloneDeep(this.state);
@@ -60,7 +64,10 @@ class AddContact extends Component {
         if (!isEqual(this.state, newState)) {
             this.setState(newState);
         }
-        this.setState({ fields: { ...this.state.fields, [name]: value }, errors: { ...errorsState } });
+        this.setState({
+            fields: { ...this.state.fields, [name]: value },
+            errors: { ...errorsState }
+        });
     };
 
     handleSubmit = (e, addContact) => {
@@ -93,7 +100,7 @@ class AddContact extends Component {
         cache.writeQuery({ 
             query: GET_USER_CONTACTS, 
             data: { 
-                userContacts: [addContact, ...userContacts]
+                userContacts: [ addContact, ...userContacts ]
             } 
         });
     };

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { cloneDeep, isEqual } from 'lodash';
-import validator from 'validator';
+import { isEmpty, isEmail } from 'validator';
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
 import { LOGIN_USER } from '../../mutations/auth';
+import { REQUIRED, INVALID } from '../../configs/constants';
 
 const loginState = {
     email: '',
@@ -18,21 +19,24 @@ export class Login extends Component {
     };
 
     clearState = () => {
-        this.setState({ fields: { ...loginState }, errors: { ...loginState } });
+        this.setState({
+            fields: { ...loginState },
+            errors: { ...loginState }
+        });
     };
 
     validate = (name, value) => {
         switch (name) {
                 case 'email':
-                    if (validator.isEmpty(value)) {
-                        return 'Email is required';
-                    } else if (!validator.isEmail(value)) {
-                        return 'Email is invalid';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Email');
+                    } else if (!isEmail(value)) {
+                        return INVALID('Email');
                     }
                     break;
                 case 'password':
-                    if (validator.isEmpty(value)) {
-                        return 'Password is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Password');
                     }
                     break;
                 default:
@@ -73,10 +77,9 @@ export class Login extends Component {
             return;
         }
 
-        login().then(async ({ data }) => {
-            console.log(data);
-            if (data.login) {
-                localStorage.setItem('accessToken', data.login.accessToken);
+        login().then(async ({ data: { login } }) => {
+            if (login) {
+                localStorage.setItem('accessToken', login.accessToken);
                 await this.props.refetch();
                 this.clearState();
                 this.props.history.push('/');

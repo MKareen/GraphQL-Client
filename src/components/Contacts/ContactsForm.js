@@ -3,8 +3,9 @@ import { Mutation } from 'react-apollo';
 import { GET_USER_CONTACTS } from '../../queries/contact';
 import { EDIT_CONTACT } from '../../mutations/contact';
 import { Error } from '../Error';
-import validator from 'validator';
+import { isEmpty } from 'validator';
 import { cloneDeep, isEqual } from 'lodash';
+import { REQUIRED } from '../../configs/constants';
 
 const initialState = {
     firstName: '',
@@ -27,13 +28,14 @@ class ContactForm extends Component {
     };
 
     componentDidMount() {
+        const { data: { contact } } = this.props;
         this.setState({
             fields: {
-                firstName: this.props.data.contact.firstName,
-                lastName: this.props.data.contact.lastName,
-                phone: this.props.data.contact.phone,
-                email: this.props.data.contact.email,
-                address: this.props.data.contact.address
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                phone: contact.phone,
+                email: contact.email,
+                address: contact.address
             }
         });
     }
@@ -41,13 +43,13 @@ class ContactForm extends Component {
     validate = (name, value) => {
         switch (name) {
                 case 'firstName':
-                    if (validator.isEmpty(value)) {
-                        return 'First Name is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('First Name');
                     }
                     break;
                 case 'phone':
-                    if (validator.isEmpty(value)) {
-                        return 'Phone number is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Phone Number');
                     }
                     break;
                 default:
@@ -67,7 +69,10 @@ class ContactForm extends Component {
         if (!isEqual(this.state, newState)) {
             this.setState(newState);
         }
-        this.setState({ fields: { ...this.state.fields, [name]: value }, errors: { ...errorsState } });
+        this.setState({
+            fields: { ...this.state.fields, [name]: value },
+            errors: { ...errorsState }
+        });
     };
 
     handleSubmit = (e, editContact) => {
@@ -95,13 +100,13 @@ class ContactForm extends Component {
 
     render() {
         const { fields, errors } = this.state;
-        const { data } = this.props;
+        const { data: { contact } } = this.props;
 
         return (
             <Mutation
                 mutation={ EDIT_CONTACT }
                 variables={{
-                    id: data.contact.id,
+                    id: contact.id,
                     firstName: fields.firstName,
                     lastName: fields.lastName,
                     phone: fields.phone,

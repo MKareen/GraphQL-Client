@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import validator from 'validator';
+import { isEmpty, isEmail } from 'validator';
 import { isEqual, cloneDeep } from 'lodash';
 import { Mutation } from 'react-apollo';
 import { Error } from '../Error';
 import { SIGNUP_USER } from '../../mutations/auth';
+import { REQUIRED, INVALID } from '../../configs/constants';
 
 const signupState = {
     fullName: '',
@@ -25,21 +26,21 @@ export class Signup extends Component {
     validate = (name, value) => {
         switch (name) {
                 case 'fullName': {
-                    if (validator.isEmpty(value)) {
-                        return 'Full Name is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Full Name');
                     }
                     break;
                 }
                 case 'email':
-                    if (validator.isEmpty(value)) {
-                        return 'Email is required';
-                    } else if (!validator.isEmail(value)) {
-                        return 'Email is invalid';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Email');
+                    } else if (!isEmail(value)) {
+                        return INVALID('Email');
                     }
                     break;
                 case 'password':
-                    if (validator.isEmpty(value)) {
-                        return 'Password is required';
+                    if (isEmpty(value)) {
+                        return REQUIRED('Password');
                     }
                     break;
                 default:
@@ -80,10 +81,9 @@ export class Signup extends Component {
             return;
         }
 
-        signup().then(async ({ data }) => {
-            localStorage.setItem('accessToken', data.signup.accessToken);
+        signup().then(async ({ data: { signup } }) => {
+            localStorage.setItem('accessToken', signup.accessToken);
             await this.props.refetch();
-            console.log(data);
             this.clearState();
             this.props.history.push('/');
         });
@@ -100,7 +100,7 @@ export class Signup extends Component {
                     variables={{ 
                         fullName: fields.fullName, 
                         email: fields.email, 
-                        password: fields.password 
+                        password: fields.password
                     }}>
                     {( signup, { loading, error }) => {
                         return (
@@ -140,7 +140,6 @@ export class Signup extends Component {
                             </form>
                         );
                     }}
-
                 </Mutation>
             </div>
         );
