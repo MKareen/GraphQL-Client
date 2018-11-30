@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Login from '../components/Auth/Login';
 import Signup from '../components/Auth/Signup';
 import withSession from '../components/Session/withSession';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 import ContactsList from '../components/Contacts/ContactsList';
 import Profile from '../components/Profile/Profile';
 import AddContact from '../components/Contacts/AddContact';
