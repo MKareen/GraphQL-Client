@@ -24,3 +24,11 @@ export const LOGIN_USER = gql`
     }
     ${userFragment}
 `;
+
+export const LOGOUT_USER = gql`
+    mutation {
+        logout {
+            id
+        }
+    }
+`;
