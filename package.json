@@ -17,22 +17,9 @@
     "react-scripts": "^2.1.5",
     "validator": "^10.9.0"
   },
-  "devDependencies": {
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-import-resolver-babel-module": "^4.0.0",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-dependencies": "^2.4.0",
-    "eslint-plugin-flowtype": "^2.50.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-mocha": "^5.1.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-react": "^7.11.1"
-  },
   "scripts": {
-    "start": "node server.js",
+    "start:dev": "react-scripts start",
+    "start:prod": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

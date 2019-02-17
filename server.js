@@ -2,10 +2,9 @@
 
 const express = require('express');
 const path = require('path');
+const app = express();
 
-const app = new express();
-
-app.use(express.static(path.join(__dirname, 'production')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('bundle.js', function (req, res, next) {
     req.url = req.url + '.gz';
@@ -13,8 +12,8 @@ app.get('bundle.js', function (req, res, next) {
     next();
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/production/index.html'));
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const port = process.env.PORT || 3000;
