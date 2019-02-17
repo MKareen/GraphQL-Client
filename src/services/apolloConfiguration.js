@@ -2,7 +2,7 @@ import ApolloClient from 'apollo-boost';
 import params from '../configs/params';
 
 const client = new ApolloClient({
-    uri: params.apiUrl,
+    uri: 'https://gqlapi-contacts.herokuapp.com/graphql',
     fetchOptions: {
         credentials: 'include'
     },
