@@ -93,13 +93,15 @@ export class Login extends Component {
 
         return (
             <div className="App">
-                <h2 className="App">Login</h2>
                 <Mutation
                     mutation={LOGIN_USER}
                     variables={{ email: fields.email, password: fields.password }}>
                     {( login, { loading, error }) => {
                         return (
                             <form onSubmit={e => this.handleSubmit(e, login)} className="form">
+                            <div className="row header">
+                            <h2 className="felt">Login</h2>
+                            </div>
                                 <input
                                     type="email"
                                     name="email"
@@ -116,6 +118,12 @@ export class Login extends Component {
                                     onChange={this.handleChange}
                                 />
                                 {errors.password && <div className="invalid">{errors.password}</div>}
+
+                                <div className="main-wrapper">
+	                                    	<i className="icon ion-logo-facebook"></i>
+	                                    	<i className="icon ion-logo-instagram"></i>
+	                                    	<i className="icon ion-logo-twitter"></i>
+                                    </div>
                                 <button
                                     type="submit"
                                     className="button-primary"

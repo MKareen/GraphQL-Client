@@ -16,7 +16,7 @@ const Logout = ({ history }) => (
     <ApolloConsumer>
         {(client) => {
             return (
-                <button onClick={() => handleLogout(client, history)}>Logout</button>
+                <button className="out" onClick={() => handleLogout(client, history)}>Logout</button>
             );
         }}
     </ApolloConsumer>

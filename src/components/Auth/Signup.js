@@ -94,17 +94,18 @@ export class Signup extends Component {
 
         return (
             <div className="App">
-                <h2 className="App">Signup</h2>
+
                 <Mutation
                     mutation={SIGNUP_USER}
-                    variables={{ 
-                        fullName: fields.fullName, 
-                        email: fields.email, 
+                    variables={{
+                        fullName: fields.fullName,
+                        email: fields.email,
                         password: fields.password
                     }}>
                     {( signup, { loading, error }) => {
                         return (
                             <form onSubmit={e => this.handleSubmit(e, signup)} className="form">
+                                <h2 className="felt">Sign Up</h2>
                                 <input
                                     type="text"
                                     name="fullName"
