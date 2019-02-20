@@ -83,7 +83,10 @@ class ContactsPage extends Component {
                             <Mutation
                                 mutation={DELETE_CONTACT}
                                 variables={{ id }}
-                                refetchQueries={() => [{ query: GET_USER_CONTACTS }] }
+                                refetchQueries={() => [
+                                    { query: GET_USER_CONTACTS },
+                                    { query: GET_CURRENT_USER }
+                                ] }
                                 update={this.updateDeleteCache}
                             >
                                 {(deleteContact, attrs = {}) => (
