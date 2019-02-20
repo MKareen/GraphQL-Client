@@ -119,11 +119,11 @@ export class Login extends Component {
                                 />
                                 {errors.password && <div className="invalid">{errors.password}</div>}
 
-                                <div className="main-wrapper">
-	                                    	<i className="icon ion-logo-facebook"></i>
-	                                    	<i className="icon ion-logo-instagram"></i>
-	                                    	<i className="icon ion-logo-twitter"></i>
-                                    </div>
+                                {/*<div className="main-wrapper">*/}
+                                    {/*<i className="icon ion-logo-facebook"></i>*/}
+                                    {/*<i className="icon ion-logo-instagram"></i>*/}
+                                    {/*<i className="icon ion-logo-twitter"></i>*/}
+                                {/*</div>*/}
                                 <button
                                     type="submit"
                                     className="button-primary"

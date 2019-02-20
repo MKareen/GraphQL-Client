@@ -68,10 +68,14 @@ class ContactsPage extends Component {
                                 ]}>
                                 {(addToFavourites) => {
                                     return (
-                                        <button
-                                            onClick={() => this.handleAddOrRemove(addToFavourites)}>
-                                            {data && data.contact.isFavourite ? 'Remove from favourites' : 'Add to favourites'}
-                                        </button>
+                                        <div>
+                                            <br/>
+                                            <button
+                                                className="fav-button"
+                                                onClick={() => this.handleAddOrRemove(addToFavourites)}>
+                                                {data && data.contact.isFavourite ? 'Remove from favourites' : 'Add to favourites'}
+                                            </button>
+                                        </div>
                                     );
                                 }}
                             </Mutation>
@@ -83,11 +87,15 @@ class ContactsPage extends Component {
                                 update={this.updateDeleteCache}
                             >
                                 {(deleteContact, attrs = {}) => (
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => this.handleDelete(deleteContact)}>
-                                        {attrs.loading ? 'Deleting...' : 'Delete'}
-                                    </button>
+                                    <div>
+                                        <br/>
+                                        <button
+                                            className="out"
+                                            onClick={() => this.handleDelete(deleteContact)}>
+                                            {attrs.loading ? 'Deleting...' : 'Delete'}
+                                        </button>
+                                        <br/>
+                                    </div>
                                 )}
                             </Mutation>
                         </div>

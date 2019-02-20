@@ -13,7 +13,7 @@
     color: #ff5959; }
   .contact-list p {
     margin: 0 auto;
-    color: #fff;
+    color: #000000;
     font-size: 14px;
     max-width: 400px;
     margin-top: 40px; }
@@ -87,7 +87,7 @@ nav {
       overflow: hidden; }
       nav ul li a {
         text-decoration: none;
-        color: #ff5959;
+        color: #807070;
         font-size: 1em;
         text-transform: uppercase;
         transition: all 0.5s ease;
@@ -118,7 +118,7 @@ input {
   border: none;
   border-bottom: 1.5px solid #353441;
   background: none;
-  color: #fff; }
+  color: #000000; }
   input:focus {
     outline: none;
     border-color: #ff5959; }
@@ -139,13 +139,20 @@ input {
   .row h3 {
     color: #353441; }
 
+.fav-button {
+  font-size: 1em;
+  background: snow;
+  border-radius: 12px;
+  padding: 0.74em 1.5em;
+}
+
 .button-primary {
   font-size: 1em;
   display: inline-block;
   padding: 0.74em 1.5em;
   margin: 1.5em 0 0;
   color: #fff;
-  background: #ff5959;
+  background: cadetblue;
   border-width: 0 0 0 0;
   border-bottom: 5px solid;
   text-transform: uppercase;
@@ -153,9 +160,10 @@ input {
   cursor: pointer; }
 
 .out {
-  color: #ff5959;
+  color: cadetblue;
   background: #fff;
   border-width: 0 0 0 0;
+  border-radius: 12px;
   font-size: 1em;
   display: inline-block;
   padding: 0.34em 1.5em;
